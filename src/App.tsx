@@ -213,6 +213,7 @@ export const App: React.FC = () => {
     } catch (err) {
       setError('Unable to rename the todo');
       setTimeout(() => setError(null), 3000);
+      throw err;
     } finally {
       setLoadingTodo(null);
     }

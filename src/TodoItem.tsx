@@ -42,18 +42,23 @@ export const TodoItem: React.FC<Props> = ({
     setIsEditing(false);
   };
 
-  const finishEditing = () => {
+  const finishEditing = async () => {
     const trimmedTitle = editedTitle.trim();
 
     if (trimmedTitle === '') {
+      cancelEditing();
+
       return;
     }
 
     if (trimmedTitle !== todo.title) {
-      onRename(todo.id, trimmedTitle);
+      try {
+        await onRename(todo.id, trimmedTitle);
+        setIsEditing(false);
+      } catch (err) {}
+    } else {
+      setIsEditing(false);
     }
-
-    setIsEditing(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
