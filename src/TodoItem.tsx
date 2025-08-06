@@ -9,7 +9,7 @@ interface Props {
   setError: (error: string | null) => void;
   onDelete: (id: number) => void;
   onToggle: (id: number, newStatus: boolean) => void;
-  onRename: (id: number, newTitle: string) => void;
+  onRename: (id: number, newTitle: string) => Promise<boolean>;
 }
 
 /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -46,16 +46,17 @@ export const TodoItem: React.FC<Props> = ({
     const trimmedTitle = editedTitle.trim();
 
     if (trimmedTitle === '') {
-      cancelEditing();
+      onDelete(todo.id);
 
       return;
     }
 
     if (trimmedTitle !== todo.title) {
-      try {
-        await onRename(todo.id, trimmedTitle);
+      const response = await onRename(todo.id, trimmedTitle);
+
+      if (response) {
         setIsEditing(false);
-      } catch (err) {}
+      }
     } else {
       setIsEditing(false);
     }

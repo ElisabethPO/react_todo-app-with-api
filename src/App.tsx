@@ -201,7 +201,12 @@ export const App: React.FC = () => {
     }
   };
 
-  const handleRename = async (id: number, newTitle: string) => {
+  const handleRename = async (
+    id: number,
+    newTitle: string,
+  ): Promise<boolean> => {
+    let result = false;
+
     try {
       setLoadingTodo(id);
       await updateTodo(id, { title: newTitle });
@@ -210,13 +215,16 @@ export const App: React.FC = () => {
           todo.id === id ? { ...todo, title: newTitle } : todo,
         ),
       );
+      result = true;
     } catch (err) {
-      setError('Unable to rename the todo');
+      setError('Unable to update a todo');
       setTimeout(() => setError(null), 3000);
       throw err;
     } finally {
       setLoadingTodo(null);
     }
+
+    return result;
   };
 
   if (!USER_ID) {
