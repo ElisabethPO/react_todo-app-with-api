@@ -1,21 +1,11 @@
 import React from 'react';
-import { Todo } from './types/Todo';
 import { TodoItem } from './TodoItem';
-
-interface Props {
-  filteredTodos: Todo[];
-  setError: (error: string | null) => void;
-  tempTodo?: Todo | null;
-  loadingTodo: number | null;
-  onDelete: (id: number) => void;
-  onToggle: (id: number, newStatus: boolean) => void;
-  onRename: (id: number, newTitle: string) => Promise<boolean>;
-}
+import { TodoListProps } from './types/TodoListProps';
 
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 
-export const TodoList: React.FC<Props> = ({
+export const TodoList: React.FC<TodoListProps> = ({
   filteredTodos,
   setError,
   tempTodo,

@@ -1,24 +1,9 @@
 import React, { useEffect } from 'react';
-import { Todo } from './types/Todo';
+import { HeaderProps } from './types/HeaderProps';
 import { USER_ID } from './api/todos';
 import classNames from 'classnames';
 
-interface Props {
-  setError: (error: string | null) => void;
-  newTodoTitle: string;
-  setLoadingTodo: (value: boolean) => void;
-  setTempTodo: (todo: Todo) => void;
-  setNewTodoTitle: (value: string) => void;
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
-  loadingTodo: boolean;
-  handleAddTodo: (title: string) => Promise<void>;
-  inputRef: React.RefObject<HTMLInputElement>;
-  todos: Todo[];
-  toggleAll: () => void;
-  isTodosLoading: boolean;
-}
-
-export const Header: React.FC<Props> = ({
+export const Header: React.FC<HeaderProps> = ({
   setError,
   newTodoTitle,
   setLoadingTodo,
@@ -39,7 +24,43 @@ export const Header: React.FC<Props> = ({
     }, 0);
 
     return () => clearTimeout(timer);
-  }, [loadingTodo]);
+  }, [loadingTodo, inputRef]);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const trimmedTitle = newTodoTitle.trim();
+
+    if (!trimmedTitle) {
+      setError('Title should not be empty');
+
+      setTimeout(() => {
+        setError(null);
+      }, 3000);
+
+      return;
+    }
+
+    setError(null);
+
+    const newTodo = {
+      title: trimmedTitle,
+      userId: USER_ID,
+      completed: false,
+    };
+
+    const tempTask = {
+      id: 0,
+      title: trimmedTitle,
+      userId: USER_ID,
+      completed: false,
+    };
+
+    setTempTodo(tempTask);
+
+    setLoadingTodo(true);
+    handleAddTodo(newTodo.title);
+  };
 
   return (
     <header className="todoapp__header">
@@ -56,43 +77,7 @@ export const Header: React.FC<Props> = ({
       )}
 
       {/* Add a todo on form submit */}
-      <form
-        onSubmit={event => {
-          event.preventDefault();
-
-          const trimmedTitle = newTodoTitle.trim();
-
-          if (!trimmedTitle) {
-            setError('Title should not be empty');
-
-            setTimeout(() => {
-              setError(null);
-            }, 3000);
-
-            return;
-          }
-
-          setError(null);
-
-          const newTodo = {
-            title: trimmedTitle,
-            userId: USER_ID,
-            completed: false,
-          };
-
-          const tempTask = {
-            id: 0,
-            title: trimmedTitle,
-            userId: USER_ID,
-            completed: false,
-          };
-
-          setTempTodo(tempTask);
-
-          setLoadingTodo(true);
-          handleAddTodo(newTodo.title);
-        }}
-      >
+      <form onSubmit={handleSubmit}>
         <input
           value={newTodoTitle}
           onChange={e => setNewTodoTitle(e.target.value)}

@@ -1,21 +1,11 @@
 import React, { useState } from 'react';
-import { Todo } from './types/Todo';
+import { TodoItemProps } from './types/TodoItemProps';
 import classNames from 'classnames';
-
-interface Props {
-  todo: Todo;
-  isLoading?: boolean;
-  loadingTodo: number | null;
-  setError: (error: string | null) => void;
-  onDelete: (id: number) => void;
-  onToggle: (id: number, newStatus: boolean) => void;
-  onRename: (id: number, newTitle: string) => Promise<boolean>;
-}
 
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 
-export const TodoItem: React.FC<Props> = ({
+export const TodoItem: React.FC<TodoItemProps> = ({
   todo,
   isLoading,
   loadingTodo,

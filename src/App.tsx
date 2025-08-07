@@ -2,6 +2,8 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useEffect, useRef, useState } from 'react';
 import { UserWarning } from './UserWarning';
+import { ErrorMessages } from './types/ErrorMessages';
+import { TodoInput } from './types/TodoInput';
 import {
   getTodos,
   USER_ID,
@@ -15,12 +17,6 @@ import { Footer } from './Footer';
 import { ErrorNotification } from './Error-not';
 import { Filter } from './types/Filter';
 import { Todo } from './types/Todo';
-
-interface TodoInput {
-  title: string;
-  userId: number;
-  completed: boolean;
-}
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -39,7 +35,7 @@ export const App: React.FC = () => {
     getTodos()
       .then(setTodos)
       .catch(() => {
-        setError('Unable to load todos');
+        setError(ErrorMessages.LoadTodoMessage);
         setTimeout(() => {
           setError(null);
         }, 3000);
@@ -93,7 +89,7 @@ export const App: React.FC = () => {
 
       setTempTodo(null);
     } catch (e) {
-      setError('Unable to add a todo');
+      setError(ErrorMessages.AddTodoMessage);
       setTimeout(() => setError(null), 3000);
       setTempTodo(null);
     } finally {
@@ -109,7 +105,7 @@ export const App: React.FC = () => {
         setTodos(current => current.filter(todo => todo.id !== id));
       })
       .catch(() => {
-        setError('Unable to delete a todo');
+        setError(ErrorMessages.DeleteTodoMessage);
         setTimeout(() => setError(null), 3000);
       })
       .finally(() => {
@@ -141,7 +137,7 @@ export const App: React.FC = () => {
     );
 
     if (failedIds.length > 0) {
-      setError('Unable to delete a todo');
+      setError(ErrorMessages.DeleteTodoMessage);
       setTimeout(() => setError(null), 3000);
     }
 
@@ -160,7 +156,7 @@ export const App: React.FC = () => {
         ),
       );
     } catch {
-      setError('Unable to update a todo');
+      setError(ErrorMessages.UpdateTodoMessage);
       setTimeout(() => setError(null), 3000);
     } finally {
       setLoadingTodo(null);
@@ -194,7 +190,7 @@ export const App: React.FC = () => {
         ),
       );
     } catch (err) {
-      setError('Unable to toggle all todos');
+      setError(ErrorMessages.ToggleMessage);
       setTimeout(() => setError(null), 3000);
     } finally {
       setLoadingTodo(null);
@@ -217,7 +213,7 @@ export const App: React.FC = () => {
       );
       result = true;
     } catch (err) {
-      setError('Unable to update a todo');
+      setError(ErrorMessages.UpdateTodoMessage);
       setTimeout(() => setError(null), 3000);
       throw err;
     } finally {
