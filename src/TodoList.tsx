@@ -9,7 +9,7 @@ interface Props {
   loadingTodo: number | null;
   onDelete: (id: number) => void;
   onToggle: (id: number, newStatus: boolean) => void;
-  onRename: (id: number, newTitle: string) => void;
+  onRename: (id: number, newTitle: string) => Promise<boolean>;
 }
 
 /* eslint-disable jsx-a11y/label-has-associated-control */

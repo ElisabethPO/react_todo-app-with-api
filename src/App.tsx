@@ -27,7 +27,7 @@ export const App: React.FC = () => {
   const [loadingTodo, setLoadingTodo] = useState<number | null>(null);
   const [isTodosLoading, setIsTodosLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
+  const [filter, setFilter] = useState<Filter>(Filter.All);
   const [newTodoTitle, setNewTodoTitle] = useState('');
   const [tempTodo, setTempTodo] = useState<Todo | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);

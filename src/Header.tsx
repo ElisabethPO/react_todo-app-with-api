@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Todo } from './types/Todo';
 import { USER_ID } from './api/todos';
+import classNames from 'classnames';
 
 interface Props {
   setError: (error: string | null) => void;
@@ -46,7 +47,9 @@ export const Header: React.FC<Props> = ({
       {todos.length > 0 && !isTodosLoading && (
         <button
           type="button"
-          className={`todoapp__toggle-all ${todos.length > 0 && todos.every(todo => todo.completed) ? 'active' : ''}`}
+          className={classNames('todoapp__toggle-all', {
+            active: todos.length > 0 && todos.every(todo => todo.completed),
+          })}
           data-cy="ToggleAllButton"
           onClick={toggleAll}
         />

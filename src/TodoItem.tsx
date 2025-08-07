@@ -18,7 +18,6 @@ interface Props {
 export const TodoItem: React.FC<Props> = ({
   todo,
   isLoading,
-  // setError,
   loadingTodo,
   onDelete,
   onToggle,
@@ -26,16 +25,6 @@ export const TodoItem: React.FC<Props> = ({
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(todo.title);
-
-  // const handleRename = () => {
-  //   const trimmedTitle = editedTitle.trim();
-
-  //   if (trimmedTitle && trimmedTitle !== todo.title) {
-  //     onRename(todo.id, trimmedTitle);
-  //   }
-
-  //   setIsEditing(false);
-  // };
 
   const cancelEditing = () => {
     setEditedTitle(todo.title);
